@@ -153,6 +153,17 @@ input:focus {
 .search-input::placeholder {
     color: var(--subtext);
 }
+
+.category-header {
+    grid-column: 1 / -1;
+    font-size: 1.4rem;
+    color: var(--accent);
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 0.5rem;
+}
+
 /* Snippets Specific */
 code {
     display: block;

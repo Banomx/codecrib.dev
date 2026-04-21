@@ -71,15 +71,31 @@ function displaySnippets(snippetsToDisplay) {
         return;
     }
 
-    snippetsToDisplay.forEach(s => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `<h2>${s.title}</h2>`;
-        const code = document.createElement('code');
-        code.textContent = s.display;
-        code.onclick = (event) => copyToClipboard(s.code, event); // Pass event to copyToClipboard
-        card.appendChild(code);
-        container.appendChild(card);
+    // Group snippets by category
+    const groups = snippetsToDisplay.reduce((acc, snippet) => {
+        const cat = snippet.category || 'General';
+        if (!acc[cat]) acc[cat] = [];
+        acc[cat].push(snippet);
+        return acc;
+    }, {});
+
+    // Render each category group
+    Object.keys(groups).forEach(category => {
+        const header = document.createElement('h2');
+        header.className = 'category-header';
+        header.textContent = category;
+        container.appendChild(header);
+
+        groups[category].forEach(s => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `<h2>${s.title}</h2>`;
+            const code = document.createElement('code');
+            code.textContent = s.display;
+            code.onclick = (event) => copyToClipboard(s.code, event);
+            card.appendChild(code);
+            container.appendChild(card);
+        });
     });
 }
 
@@ -87,7 +103,10 @@ function displaySnippets(snippetsToDisplay) {
 function filterSnippets() {
     const searchTerm = document.getElementById('snippet-search').value.toLowerCase();
     const filtered = allSnippets.filter(s => 
-        s.title.toLowerCase().includes(searchTerm) || s.display.toLowerCase().includes(searchTerm) || s.code.toLowerCase().includes(searchTerm)
+        s.title.toLowerCase().includes(searchTerm) || 
+        s.display.toLowerCase().includes(searchTerm) || 
+        s.code.toLowerCase().includes(searchTerm) ||
+        (s.category && s.category.toLowerCase().includes(searchTerm))
     );
     displaySnippets(filtered);
 }

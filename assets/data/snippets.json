@@ -1,71 +1,85 @@
 {
     "snippets": [
         {
+            "category": "Active Directory",
             "title": "PowerShell: AD User Unlock",
             "code": "Unlock-ADAccount -Identity ",
             "display": "Unlock-ADAccount -Identity \"user\""
         },
         {
+            "category": "Networking",
             "title": "PowerShell: Test Port",
             "code": "Test-NetConnection -ComputerName localhost -Port 3389",
             "display": "TNC -ComputerName \"IP\" -Port 3389"
         },
         {
+            "category": "System Info",
             "title": "PowerShell: Get BIOS Serial",
             "code": "(Get-CimInstance Win32_Bios).SerialNumber",
             "display": "Get BIOS Serial"
         },
         {
+            "category": "System Info",
             "title": "PowerShell: OS Architecture",
             "code": "Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, OSArchitecture",
             "display": "Get OS Info"
         },
         {
+            "category": "System Info",
             "title": "PowerShell: Top Memory Processes",
             "code": "Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 10 Name, @{Name='Mem(MB)';Expression={ [math]::round($_.WorkingSet64 / 1MB, 2) }}",
             "display": "Top 10 RAM Usage"
         },
         {
+            "category": "Linux",
             "title": "Linux: Disk Space Check",
             "code": "df -h",
             "display": "df -h"
         },
         {
+            "category": "Linux",
             "title": "Linux: Listening Ports",
             "code": "ss -tulpn",
             "display": "ss -tulpn"
         },
         {
+            "category": "Linux",
             "title": "Linux: Follow Log",
             "code": "tail -f /var/log/syslog",
             "display": "tail -f /var/log/syslog"
         },
         {
+            "category": "Linux",
             "title": "Linux: Memory Usage",
             "code": "free -m",
             "display": "free -m"
         },
         {
+            "category": "Linux",
             "title": "Linux: Public IP",
             "code": "curl ifconfig.me",
             "display": "curl ifconfig.me"
         },
         {
+            "category": "Networking",
             "title": "Network: Flush DNS",
             "code": "ipconfig /flushdns",
             "display": "ipconfig /flushdns"
         },
         {
+            "category": "Networking",
             "title": "Network: Show IP (Win)",
             "code": "Get-NetIPAddress -AddressFamily IPv4 | Select-Object IPAddress, InterfaceAlias",
             "display": "Get-NetIPAddress"
         },
         {
+            "category": "Networking",
             "title": "Network: Continuous Ping",
             "code": "ping -t 8.8.8.8",
             "display": "ping -t 8.8.8.8"
         },
         {
+            "category": "Networking",
             "title": "Network: ARP Table",
             "code": "arp -a",
             "display": "arp -a"
