@@ -3,12 +3,32 @@
     {
       "title": "Azure Portal",
       "url": "https://portal.azure.com",
-      "desc": "Cloud Ressourcen Verwaltung"
+      "desc": "Microsoft Azure Management"
     },
     {
-      "title": "Microsoft 365 Admin",
+      "title": "M365 Admin",
       "url": "https://admin.microsoft.com",
-      "desc": "User & Tenant Management"
+      "desc": "Microsoft 365 Admin Center"
+    },
+    {
+      "title": "GitHub Enterprise",
+      "url": "https://github.com",
+      "desc": "Source Control"
+    },
+    {
+      "title": "Cloudflare Dash",
+      "url": "https://dash.cloudflare.com",
+      "desc": "DNS & WAF"
+    },
+    {
+      "title": "Crowdstrike",
+      "url": "https://falcon.crowdstrike.com",
+      "desc": "Endpoint Security"
+    },
+    {
+      "title": "IT Dokumentation",
+      "url": "https://confluence.internal.local",
+      "desc": "Interne Wissensdatenbank & Wiki"
     },
     {
       "title": "Proxmox / vCenter",
@@ -27,7 +47,8 @@
       "items": [
         {"name": "Process Explorer", "url": "https://download.sysinternals.com/files/ProcessExplorer.zip", "os": "Win"},
         {"name": "HWiNFO", "url": "https://www.hwinfo.com/download.php", "os": "Win"},
-        {"name": "WizTree", "url": "https://diskanalyzer.com/", "os": "Win"}
+        {"name": "WizTree", "url": "https://diskanalyzer.com/", "os": "Win"},
+        {"name": "Sysinternals Suite", "url": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite", "os": "Win"}
       ]
     },
     {
@@ -35,6 +56,7 @@
       "items": [
         {"name": "Advanced IP Scanner", "url": "https://www.advanced-ip-scanner.com/download/", "os": "Win"},
         {"name": "Wireshark", "url": "https://www.wireshark.org/#download", "os": "All"},
+        {"name": "Nmap / Zenmap", "url": "https://nmap.org/download.html", "os": "All"},
         {"name": "PuTTY", "url": "https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html", "os": "Win"}
       ]
     },

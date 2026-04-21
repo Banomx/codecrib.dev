@@ -19,22 +19,46 @@
         
         <div class="grid">
             <div class="card">
-                <h2>🌐 Public IP</h2>
-                <div id="ip-display" style="font-size: 1.8rem; text-align: center; margin: 20px 0; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-weight: bold;">--.---.---.--</div>
+                <h2>🌐 Network Identity</h2>
+                <div id="ip-display" style="font-size: 1.8rem; text-align: center; margin: 15px 0; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-weight: bold;">--.---.---.--</div>
+                
+                <div class="status-list" style="margin-bottom: 15px;">
+                    <div class="status-item"><span>Private IP:</span> <span id="ip-local" style="font-size: 0.85rem; color: var(--subtext);">Lade...</span></div>
+                    <div class="status-item"><span>ISP / Org:</span> <span id="ip-isp" style="font-size: 0.85rem; color: var(--subtext);">Lade...</span></div>
+                    <div class="status-item"><span>ASN:</span> <span id="ip-asn" style="font-size: 0.85rem; color: var(--subtext);">Lade...</span></div>
+                    <div class="status-item"><span>MAC Address:</span> <span title="Browser Security: Web-Apps haben keinen Zugriff auf Hardware-MAC-Adressen, um Tracking zu verhindern." style="cursor: help; font-size: 0.85rem; color: var(--danger); font-weight: bold;">Restricted 🔒</span></div>
+                </div>
+
                 <div style="display: flex; gap: 5px;">
-                    <button onclick="fetchIP()" style="flex: 1; padding:10px; background: var(--card-border); border:none; border-radius:4px; color: white;">Refresh</button>
+                    <button onclick="fetchIP()" style="flex: 1; padding:10px; background: var(--card-border); border:none; border-radius:4px; color: white; cursor: pointer;">Refresh</button>
+                    <button id="whois-link" onclick="openWhois()" style="flex: 1; padding:10px; background: var(--card-border); border:none; border-radius:4px; color: white; cursor: pointer;">WHOIS ↗</button>
                     <button onclick="copyToClipboard(document.getElementById('ip-display').innerText, event)" style="flex: 1; padding:10px; background: var(--accent); border:none; border-radius:4px; color: var(--bg); font-weight: bold;">Copy IP</button>
+                </div>
+                <div style="margin-top: 10px; display: flex; justify-content: flex-end; align-items: center; gap: 8px;">
+                    <span style="font-size: 0.7rem; color: var(--subtext);">WHOIS Provider:</span>
+                    <select id="whois-provider" style="background: var(--bg); color: var(--text); border: 1px solid var(--card-border); border-radius: 4px; font-size: 0.7rem; cursor: pointer; padding: 2px 5px;">
+                        <option value="https://who.is/whois-ip/">who.is</option>
+                        <option value="https://ipinfo.io/">ipinfo.io (IP only)</option>
+                    </select>
                 </div>
             </div>
 
             <div class="card">
-                <h2>🟢 Service Health</h2>
-                <div class="status-list">
-                    <div class="status-item"><span>GitHub</span> <span id="github-status"><span class="status-dot online"></span>Operational</span></div>
-                    <div class="status-item"><span>Azure</span> <span><span class="status-dot online"></span>Operational</span></div>
-                    <div class="status-item"><span>M365</span> <span><span class="status-dot warning"></span>Advisory</span></div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+                    <h2 style="margin-bottom: 0;">🟢 Service Health</h2>
+                    <button onclick="fetchServiceStatus()" class="refresh-btn" title="Refresh Status">🔄</button>
                 </div>
-                <p style="font-size: 0.7rem; color: var(--subtext); margin-top: 10px;">Status wird alle 5 Min. aktualisiert.</p>
+                <div id="health-progress-container" class="progress-container">
+                    <div id="health-progress-bar" class="progress-bar"></div>
+                </div>
+                <div class="status-list">
+                    <div class="status-item"><a href="https://www.githubstatus.com/" target="_blank">GitHub ↗</a> <span id="github-status"><span class="status-dot online"></span>Operational</span></div>
+                    <div class="status-item"><a href="https://www.cloudflarestatus.com/" target="_blank">Cloudflare ↗</a> <span id="cloudflare-status"><span class="status-dot online"></span>Operational</span></div>
+                    <div class="status-item"><a href="https://status.openai.com/" target="_blank">OpenAI ↗</a> <span id="openai-status"><span class="status-dot online"></span>Operational</span></div>
+                    <div class="status-item"><a href="https://azure.status.microsoft/" target="_blank">Azure ↗</a> <span><span class="status-dot online"></span>Operational</span></div>
+                    <div class="status-item"><a href="https://status.office.com/" target="_blank">Microsoft 365 ↗</a> <span><span class="status-dot warning"></span>Advisory</span></div>
+                </div>
+                <p style="font-size: 0.7rem; color: var(--subtext); margin-top: 10px;">Aktualisierung alle 5 Min. — Letzter Check: <span id="last-service-check">--:--:--</span></p>
             </div>
 
             <div class="card">
@@ -42,6 +66,74 @@
                 <div id="system-info">
                     <p style="color: var(--subtext);">Erkenne Umgebung...</p>
                 </div>
+            </div>
+
+            <div class="card">
+                <h2>📡 Netzwerk Latency</h2>
+                <div style="text-align: center; margin: 15px 0;">
+                    <div id="ping-google" class="status-item"><span>Google DNS:</span> <span class="latency-value">-- ms</span></div>
+                    <div id="ping-cloudflare" class="status-item"><span>Cloudflare:</span> <span class="latency-value">-- ms</span></div>
+                </div>
+                <p style="font-size: 0.7rem; color: var(--subtext);">Grob geschätzte HTTP-Latenz (nicht ICMP).</p>
+            </div>
+
+            <div class="card">
+                <h2>🧰 Quick Utils</h2>
+                <div class="util-box">
+                    <input type="text" id="util-input" placeholder="Text für Base64 / URL..." style="font-size: 0.8rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                        <button onclick="handleUtil('b64-enc')" style="padding: 5px; background: var(--card-border); color: white; font-size: 0.7rem;">B64 Enc</button>
+                        <button onclick="handleUtil('b64-dec')" style="padding: 5px; background: var(--card-border); color: white; font-size: 0.7rem;">B64 Dec</button>
+                        <button onclick="handleUtil('url-enc')" style="padding: 5px; background: var(--card-border); color: white; font-size: 0.7rem;">URL Enc</button>
+                        <button onclick="handleUtil('url-dec')" style="padding: 5px; background: var(--card-border); color: white; font-size: 0.7rem;">URL Dec</button>
+                    </div>
+                    <div id="util-output" style="font-size: 0.75rem; color: var(--accent); word-break: break-all; min-height: 1.2em; border-top: 1px solid var(--card-border); pt: 5px;">
+                        Ergebnis erscheint hier...
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🔌 Port & Network Scanner</h2>
+                <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                    <input type="text" id="port-ip" placeholder="127.0.0.1" 
+                        style="flex: 2; background: #0f172a; color: white; border: 1px solid #334155; padding: 8px; border-radius: 4px;">
+                    <input type="number" id="port-num" placeholder="80" 
+                        style="flex: 1; background: #0f172a; color: white; border: 1px solid #334155; padding: 8px; border-radius: 4px;">
+                </div>
+                <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                    <button onclick="checkPort()" 
+                            style="flex: 1; padding: 10px; background: var(--accent); border: none; border-radius: 4px; color: var(--bg); font-weight: bold; cursor: pointer;">
+                        Port prüfen
+                    </button>
+                    <button onclick="scanSubnetForWeb()" 
+                            title="Scant das unten definierte Subnetz auf Port 80/443"
+                            style="flex: 1; padding: 10px; background: var(--card-border); border: none; border-radius: 4px; color: white; font-weight: bold; cursor: pointer;">
+                        Subnet Web-Scan
+                    </button>
+                </div>
+                <div id="port-result" style="font-size: 0.85rem; font-family: monospace; color: var(--subtext);">
+                    Ziel und Port eingeben...
+                </div>
+                <div class="disclaimer-container" style="margin-top: 10px;">
+                    <span class="disclaimer-toggle" onclick="toggleDisclaimer(this)">
+                        <span style="font-size: 0.9rem;">ℹ️ Scanner Hinweis</span> <span class="toggle-arrow">▼</span>
+                    </span>
+                    <div id="scanner-disclaimer-text" class="disclaimer-text">
+                        The Solution: To get a real network scanner, you would ideally run this dashboard locally (e.g., open the index.html file directly in your browser using file:// or run it from a local http:// server). In a local context, the fetch with no-cors logic becomes much more accurate.
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🔍 Local Discovery</h2>
+                <div id="local-ip-list" style="margin-bottom: 10px; min-height: 40px;">
+                    <p style="color: var(--subtext); font-size: 0.8rem;">Ermittelt lokale Netzwerkschnittstellen via WebRTC.</p>
+                </div>
+                <button onclick="scanLocalNetwork()" 
+                        style="width: 100%; padding: 10px; background: var(--accent); border: none; border-radius: 4px; color: var(--bg); font-weight: bold; cursor: pointer;">
+                    Schnittstellen scannen
+                </button>
             </div>
 
             <div class="card">
@@ -80,13 +172,14 @@
                         style="flex: 1; background: #0f172a; color: white; border: 1px solid #334155; padding: 8px; border-radius: 4px;">
                 </div>
                 <button onclick="calculateSubnet()" 
-                        style="width: 100%; padding: 10px; background: var(--accent); border: none; border-radius: 4px; color: var(--bg); font-weight: bold; cursor: pointer;">
+                        style="width: 100%; padding: 10px; background: var(--card-border); border: none; border-radius: 4px; color: white; font-weight: bold; cursor: pointer;">
                     Berechnen
                 </button>
                 <div id="sub-result" style="margin-top: 10px; font-size: 0.85rem; font-family: monospace; color: var(--subtext);">
                     Werte eingeben...
                 </div>
             </div>
+            <div id="subnet-scan-results" class="card scan-grid" style="display: none; grid-column: 1 / -1;"></div>
         </div>
     </div>
 
