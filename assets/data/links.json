@@ -1,0 +1,49 @@
+{
+  "dashboard": [
+    {
+      "title": "Azure Portal",
+      "url": "https://portal.azure.com",
+      "desc": "Cloud Ressourcen Verwaltung"
+    },
+    {
+      "title": "Microsoft 365 Admin",
+      "url": "https://admin.microsoft.com",
+      "desc": "User & Tenant Management"
+    },
+    {
+      "title": "Proxmox / vCenter",
+      "url": "https://192.168.1.100",
+      "desc": "Lokale Virtualisierung"
+    },
+    {
+      "title": "Firewall Admin",
+      "url": "https://192.168.1.1",
+      "desc": "Netzwerk-Gateway"
+    }
+  ],
+  "software": [
+    {
+      "category": "System & Analyse",
+      "items": [
+        {"name": "Process Explorer", "url": "https://download.sysinternals.com/files/ProcessExplorer.zip", "os": "Win"},
+        {"name": "HWiNFO", "url": "https://www.hwinfo.com/download.php", "os": "Win"},
+        {"name": "WizTree", "url": "https://diskanalyzer.com/", "os": "Win"}
+      ]
+    },
+    {
+      "category": "Netzwerk",
+      "items": [
+        {"name": "Advanced IP Scanner", "url": "https://www.advanced-ip-scanner.com/download/", "os": "Win"},
+        {"name": "Wireshark", "url": "https://www.wireshark.org/#download", "os": "All"},
+        {"name": "PuTTY", "url": "https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html", "os": "Win"}
+      ]
+    },
+    {
+      "category": "Remote & Support",
+      "items": [
+        {"name": "AnyDesk", "url": "https://anydesk.com/de/downloads", "os": "All"},
+        {"name": "RustDesk", "url": "https://rustdesk.com/", "os": "All"}
+      ]
+    }
+  ]
+}

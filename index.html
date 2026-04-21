@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | codebrib.dev</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>IT Admin Zentrale</h1>
+        
+        <div class="grid">
+            <div class="card">
+                <h2>🌐 Public IP</h2>
+                <div id="ip-display" style="font-size: 1.5rem; text-align: center; margin: 15px 0; color: var(--accent); font-family: monospace;">--.---.---.--</div>
+                <button onclick="fetchIP()" style="width:100%; padding:10px; cursor:pointer; background: var(--accent); border:none; border-radius:4px; font-weight:bold;">Refresh IP</button>
+            </div>
+
+            <div class="card">
+                <h2>🛠️ Schnelle Portale</h2>
+                <div id="dashboard-links" class="btn-list">
+                    <p style="color: var(--subtext);">Lade Links...</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📝 Scratchpad</h2>
+                <textarea id="scratchpad" placeholder="Notizen für den aktuellen Task (Auto-Save)..."></textarea>
+                <p style="font-size: 0.7rem; color: var(--subtext); margin-top: 5px;">Daten werden nur lokal im Browser gespeichert.</p>
+            </div>
+
+            <div class="card">
+                <h2>🔑 PW-Generator</h2>
+                <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                    <input type="text" id="pw-result" readonly 
+                        style="flex-grow: 1; background: #000; color: #0f0; border: 1px solid #334155; padding: 8px; border-radius: 4px; font-family: monospace;">
+                    <button onclick="copyToClipboard(document.getElementById('pw-result').value)" 
+                            style="padding: 0 10px; cursor: pointer;">📋</button>
+                </div>
+                <button onclick="generatePassword()" 
+                        style="width: 100%; padding: 10px; background: var(--success); border: none; border-radius: 4px; color: white; font-weight: bold; cursor: pointer;">
+                    Neu generieren
+                </button>
+            </div>
+
+            <div class="card">
+                <h2>🧮 Subnetz-Check</h2>
+                <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                    <input type="text" id="sub-ip" placeholder="192.168.1.0" 
+                        style="flex: 2; background: #0f172a; color: white; border: 1px solid #334155; padding: 8px; border-radius: 4px;">
+                    <input type="number" id="sub-cidr" placeholder="24" min="0" max="32"
+                        style="flex: 1; background: #0f172a; color: white; border: 1px solid #334155; padding: 8px; border-radius: 4px;">
+                </div>
+                <button onclick="calculateSubnet()" 
+                        style="width: 100%; padding: 10px; background: var(--accent); border: none; border-radius: 4px; color: var(--bg); font-weight: bold; cursor: pointer;">
+                    Berechnen
+                </button>
+                <div id="sub-result" style="margin-top: 10px; font-size: 0.85rem; font-family: monospace; color: var(--subtext);">
+                    Werte eingeben...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/navigation.js"></script>
+    <script src="assets/js/tools.js"></script>
+    <script>
+        // Lade Dashboard-spezifische Links
+        document.addEventListener('DOMContentLoaded', () => loadLinks('dashboard'));
+    </script>
+</body>
+</html>
