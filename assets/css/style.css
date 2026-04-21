@@ -140,6 +140,19 @@ input:focus {
     border-color: var(--accent);
 }
 
+/* Search Input Specific */
+.search-input {
+    margin-bottom: 1.5rem;
+    padding: 0.85rem 1rem; /* Slightly larger padding */
+    font-size: 1rem;
+    border-radius: 8px;
+    background: var(--card-bg); /* Match card background */
+    border-color: var(--card-border);
+    color: var(--text);
+}
+.search-input::placeholder {
+    color: var(--subtext);
+}
 /* Snippets Specific */
 code {
     display: block;

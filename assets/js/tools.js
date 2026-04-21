@@ -1,4 +1,7 @@
 // IP Adresse abrufen
+
+// Global variable to store all snippets
+let allSnippets = [];
 async function fetchIP() {
     const el = document.getElementById('ip-display');
     el.innerText = "Checking...";
@@ -44,36 +47,69 @@ async function loadLinks(type) {
         }
 
         else if (type === 'snippets') {
-            const container = document.getElementById('snippets-grid');
-            container.innerHTML = ''; // Clear loader
-            data.snippets.forEach(s => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `<h2>${s.title}</h2>`;
-                const code = document.createElement('code');
-                code.textContent = s.display;
-                code.onclick = () => copyToClipboard(s.code);
-                card.appendChild(code);
-                container.appendChild(card);
-            });
+            allSnippets = data.snippets; // Store all snippets
+            displaySnippets(allSnippets); // Display them initially
+            
+            // Attach event listener for search
+            const searchInput = document.getElementById('snippet-search');
+            if (searchInput) {
+                searchInput.addEventListener('input', filterSnippets);
+            }
         }
     } catch (e) {
         console.error("Fehler beim Laden der JSON-Daten:", e);
     }
 }
 
+// Function to display snippets in the grid
+function displaySnippets(snippetsToDisplay) {
+    const container = document.getElementById('snippets-grid');
+    container.innerHTML = ''; // Clear previous content
+
+    if (snippetsToDisplay.length === 0) {
+        container.innerHTML = `<p style="color: var(--subtext); text-align: center; grid-column: 1 / -1;">No snippets found matching your search.</p>`;
+        return;
+    }
+
+    snippetsToDisplay.forEach(s => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `<h2>${s.title}</h2>`;
+        const code = document.createElement('code');
+        code.textContent = s.display;
+        code.onclick = (event) => copyToClipboard(s.code, event); // Pass event to copyToClipboard
+        card.appendChild(code);
+        container.appendChild(card);
+    });
+}
+
+// Function to filter snippets based on search input
+function filterSnippets() {
+    const searchTerm = document.getElementById('snippet-search').value.toLowerCase();
+    const filtered = allSnippets.filter(s => 
+        s.title.toLowerCase().includes(searchTerm) || s.display.toLowerCase().includes(searchTerm) || s.code.toLowerCase().includes(searchTerm)
+    );
+    displaySnippets(filtered);
+}
+
 // Kopieren-Funktion für Snippets
-function copyToClipboard(text) {
+function copyToClipboard(text, event) { // Accept event as argument
     if (!text) return;
     navigator.clipboard.writeText(text).then(() => {
-        const originalText = event.target.innerText;
-        const originalColor = event.target.style.color;
-        event.target.innerText = "COPIED TO CLIPBOARD!";
-        event.target.style.color = "var(--success)";
-        setTimeout(() => { 
-            event.target.innerText = originalText;
-            event.target.style.color = originalColor;
-        }, 1500);
+        const targetElement = event ? event.target : null; // Use event.target if available
+        if (targetElement) {
+            const originalText = targetElement.innerText;
+            const originalColor = targetElement.style.color;
+            targetElement.innerText = "COPIED TO CLIPBOARD!";
+            targetElement.style.color = "var(--success)";
+            setTimeout(() => { 
+                targetElement.innerText = originalText;
+                targetElement.style.color = originalColor;
+            }, 1500);
+        } else {
+            // Fallback for cases where event might not be passed (e.g., direct call)
+            console.log("Copied: " + text);
+        }
     });
 }
 
@@ -86,6 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem('admin_notes', pad.value);
         });
     }
+    // No need to call loadLinks here for snippets, it's called in snippets.html
 });
 
 // --- Passwort Generator ---
