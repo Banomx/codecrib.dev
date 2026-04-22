@@ -84,6 +84,7 @@ async function loadLinks(type) {
 
         if (type === 'dashboard') {
             const container = document.getElementById('dashboard-links');
+            if (container) container.classList.add('grid-layout');
             container.innerHTML = data.dashboard.map(link => `
                 <a href="${link.url}" target="_blank" style="display: flex; flex-direction: column; gap: 2px; padding: 10px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">

@@ -18,22 +18,7 @@
         </div>
         
         <div class="grid">
-            <div class="card">
-                <h2>🕸️ Site Availability</h2>
-                <div style="display: flex; gap: 5px; margin-bottom: 10px;">
-                    <input type="text" id="site-url" placeholder="https://example.com" 
-                        style="flex-grow: 1; background: #0f172a; color: white; border: 1px solid #334155; padding: 8px; border-radius: 4px;">
-                </div>
-                <button onclick="checkSiteStatus()" 
-                        style="width: 100%; padding: 10px; background: var(--accent); border: none; border-radius: 4px; color: var(--bg); font-weight: bold; cursor: pointer;">
-                    Status prüfen
-                </button>
-                <div id="site-result" style="margin-top: 10px; font-size: 0.85rem; font-family: monospace; color: var(--subtext);">
-                    URL eingeben (CORS-beachtet)...
-                </div>
-            </div>
-
-            <div class="card">
+            <div class="card hero">
                 <h2>🌐 Network Identity</h2>
                 <div id="ip-display" style="font-size: 1.8rem; text-align: center; margin: 15px 0; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-weight: bold;">--.---.---.--</div>
                 
@@ -58,7 +43,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card hero">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
                     <h2 style="margin-bottom: 0;">🟢 Service Health</h2>
                     <button onclick="fetchServiceStatus()" class="refresh-btn" title="Refresh Status">🔄</button>
@@ -84,12 +69,38 @@
             </div>
 
             <div class="card">
+                <h2>🔍 Local Discovery</h2>
+                <div id="local-ip-list" style="margin-bottom: 10px; min-height: 40px;">
+                    <p style="color: var(--subtext); font-size: 0.8rem;">Ermittelt lokale Netzwerkschnittstellen via WebRTC.</p>
+                </div>
+                <button onclick="scanLocalNetwork()" 
+                        style="width: 100%; padding: 10px; background: var(--accent); border: none; border-radius: 4px; color: var(--bg); font-weight: bold; cursor: pointer;">
+                    Schnittstellen scannen
+                </button>
+            </div>
+
+            <div class="card">
                 <h2>📡 Netzwerk Latency</h2>
                 <div style="text-align: center; margin: 15px 0;">
                     <div id="ping-google" class="status-item"><span>Google DNS:</span> <span class="latency-value">-- ms</span></div>
                     <div id="ping-cloudflare" class="status-item"><span>Cloudflare:</span> <span class="latency-value">-- ms</span></div>
                 </div>
                 <p style="font-size: 0.7rem; color: var(--subtext);">Grob geschätzte HTTP-Latenz (nicht ICMP).</p>
+            </div>
+
+            <div class="card">
+                <h2>🕸️ Site Availability</h2>
+                <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                    <input type="text" id="site-url" placeholder="https://example.com" 
+                        style="flex-grow: 1; background: var(--bg); color: white; border: 1px solid var(--card-border); padding: 8px; border-radius: 4px;">
+                </div>
+                <button onclick="checkSiteStatus()" 
+                        style="width: 100%; padding: 10px; background: var(--accent); border: none; border-radius: 4px; color: var(--bg); font-weight: bold; cursor: pointer;">
+                    Status prüfen
+                </button>
+                <div id="site-result" style="margin-top: 10px; font-size: 0.85rem; font-family: monospace; color: var(--subtext);">
+                    URL eingeben (CORS-beachtet)...
+                </div>
             </div>
 
             <div class="card">
@@ -112,9 +123,9 @@
                 <h2>🔌 Port & Network Scanner</h2>
                 <div style="display: flex; gap: 5px; margin-bottom: 10px;">
                     <input type="text" id="port-ip" placeholder="127.0.0.1" 
-                        style="flex: 2; background: #0f172a; color: white; border: 1px solid #334155; padding: 8px; border-radius: 4px;">
+                        style="flex: 2; background: var(--bg); color: white; border: 1px solid var(--card-border); padding: 8px; border-radius: 4px;">
                     <input type="number" id="port-num" placeholder="80" 
-                        style="flex: 1; background: #0f172a; color: white; border: 1px solid #334155; padding: 8px; border-radius: 4px;">
+                        style="flex: 1; background: var(--bg); color: white; border: 1px solid var(--card-border); padding: 8px; border-radius: 4px;">
                 </div>
                 <div style="display: flex; gap: 5px; margin-bottom: 10px;">
                     <button onclick="checkPort()" 
@@ -140,27 +151,20 @@
                 </div>
             </div>
 
-            <div class="card">
-                <h2>🔍 Local Discovery</h2>
-                <div id="local-ip-list" style="margin-bottom: 10px; min-height: 40px;">
-                    <p style="color: var(--subtext); font-size: 0.8rem;">Ermittelt lokale Netzwerkschnittstellen via WebRTC.</p>
-                </div>
-                <button onclick="scanLocalNetwork()" 
-                        style="width: 100%; padding: 10px; background: var(--accent); border: none; border-radius: 4px; color: var(--bg); font-weight: bold; cursor: pointer;">
-                    Schnittstellen scannen
-                </button>
-            </div>
-
-            <div class="card">
+            <div class="card hero">
                 <h2>🛠️ Schnelle Portale</h2>
-                <div id="dashboard-links" class="btn-list">
+                <div id="dashboard-links" class="btn-list grid-layout">
                     <p style="color: var(--subtext);">Lade Links...</p>
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card hero">
                 <h2>📝 Scratchpad</h2>
-                <textarea id="scratchpad" placeholder="Notizen für den aktuellen Task (Auto-Save)..."></textarea>
+                <textarea id="scratchpad" placeholder="Notizen für den aktuellen Task (Auto-Save)..." style="min-height: 120px;"></textarea>
+                <div class="scratchpad-controls">
+                    <button class="scratchpad-btn" onclick="copyToClipboard(document.getElementById('scratchpad').value, event)">Copy All</button>
+                    <button class="scratchpad-btn" onclick="clearScratchpad()">Clear</button>
+                </div>
                 <p style="font-size: 0.7rem; color: var(--subtext); margin-top: 5px;">Daten werden nur lokal im Browser gespeichert.</p>
             </div>
 
@@ -168,12 +172,12 @@
                 <h2>🔑 PW-Generator</h2>
                 <div style="display: flex; gap: 5px; margin-bottom: 10px;">
                     <input type="text" id="pw-result" readonly 
-                        style="flex-grow: 1; background: #000; color: #0f0; border: 1px solid #334155; padding: 8px; border-radius: 4px; font-family: monospace;">
+                        style="flex-grow: 1; background: #000; color: var(--accent); border: 1px solid var(--card-border); padding: 8px; border-radius: 4px; font-family: monospace;">
                     <button class="icon-btn" onclick="copyToClipboard(document.getElementById('pw-result').value)" 
-                            style="padding: 0 10px; cursor: pointer;">📋</button>
+                            style="padding: 0 10px; cursor: pointer; background: var(--card-border); border: none; border-radius: 4px; color: white;">📋</button>
                 </div>
                 <button onclick="generatePassword()" 
-                        style="width: 100%; padding: 10px; background: var(--success); border: none; border-radius: 4px; color: white; font-weight: bold; cursor: pointer;">
+                        style="width: 100%; padding: 10px; background: var(--accent); border: none; border-radius: 4px; color: var(--bg); font-weight: bold; cursor: pointer;">
                     Neu generieren
                 </button>
             </div>
@@ -182,9 +186,9 @@
                 <h2>🧮 Subnetz-Check</h2>
                 <div style="display: flex; gap: 5px; margin-bottom: 10px;">
                     <input type="text" id="sub-ip" placeholder="192.168.1.0" 
-                        style="flex: 2; background: #0f172a; color: white; border: 1px solid #334155; padding: 8px; border-radius: 4px;">
+                        style="flex: 2; background: var(--bg); color: white; border: 1px solid var(--card-border); padding: 8px; border-radius: 4px;">
                     <input type="number" id="sub-cidr" placeholder="24" min="0" max="32"
-                        style="flex: 1; background: #0f172a; color: white; border: 1px solid #334155; padding: 8px; border-radius: 4px;">
+                        style="flex: 1; background: var(--bg); color: white; border: 1px solid var(--card-border); padding: 8px; border-radius: 4px;">
                 </div>
                 <button onclick="calculateSubnet()" 
                         style="width: 100%; padding: 10px; background: var(--card-border); border: none; border-radius: 4px; color: white; font-weight: bold; cursor: pointer;">

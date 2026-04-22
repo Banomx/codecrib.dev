@@ -6,17 +6,18 @@ document.addEventListener("DOMContentLoaded", function() {
     ];
 
     const nav = document.createElement('nav');
-    const path = window.location.pathname;
-    let page = path.split("/").pop() || "index.html";
-    
-    // Handle local directory paths
-    if (page === "") page = "index.html";
+    const currentPath = window.location.pathname.toLowerCase();
 
     navItems.forEach(item => {
         const link = document.createElement('a');
         link.href = item.url;
         link.textContent = item.name;
-        if (page === item.url) link.classList.add('active');
+        
+        // Check if the current path ends with the item URL or if it's the root matching index.html
+        const isIndex = (item.url === 'index.html' && (currentPath === '/' || currentPath.endsWith('/index.html')));
+        const isOther = currentPath.endsWith(item.url.toLowerCase());
+        
+        if (isIndex || isOther) link.classList.add('active');
         nav.appendChild(link);
     });
     document.body.prepend(nav);

@@ -1,14 +1,14 @@
 :root {
-    --bg: #0f172a;
-    --card-bg: #1e293b;
-    --card-border: #334155;
-    --text: #f8fafc;
-    --subtext: #94a3b8;
+    --bg: #09090b;
+    --card-bg: #18181b;
+    --card-border: #27272a;
+    --text: #fafafa;
+    --subtext: #a1a1aa;
     --accent: #10b981;
     --accent-hover: #34d399;
     --success: #22c55e;
     --danger: #ef4444;
-    --nav-bg: rgba(15, 23, 42, 0.8);
+    --nav-bg: rgba(9, 9, 11, 0.9);
     --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
@@ -18,13 +18,33 @@
     padding: 0;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--card-border);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--subtext);
+}
+
 body {
     background-color: var(--bg);
     color: var(--text);
     font-family: var(--font-main);
     line-height: 1.6;
     padding-top: 80px; /* Space for fixed nav */
-    background-image: radial-gradient(circle at top right, #1e293b, transparent);
+    background-image: radial-gradient(circle at top right, #18181b, transparent);
     min-height: 100vh;
 }
 
@@ -111,6 +131,13 @@ nav a.active {
     gap: 1.5rem;
 }
 
+/* Hero Cards for Hierarchy */
+@media (min-width: 1024px) {
+    .card.hero {
+        grid-column: span 2;
+    }
+}
+
 .card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -154,7 +181,7 @@ button:active {
 
 input, textarea {
     width: 100%;
-    background: #0f172a;
+    background: #000;
     border: 1px solid var(--card-border);
     color: white;
     padding: 0.75rem;
@@ -212,6 +239,31 @@ input:focus {
     flex-shrink: 0;
 }
 
+
+.status-dot.online {
+    background-color: var(--success);
+    box-shadow: 0 0 8px var(--success);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.status-dot.warning {
+    background-color: #f59e0b;
+    box-shadow: 0 0 8px #f59e0b;
+    animation: pulse 2s infinite;
+}
+
+.status-dot.offline {
+    background-color: var(--danger);
+    box-shadow: 0 0 8px var(--danger);
+    animation: pulse 2s infinite;
+}
+
 .incident-title {
     font-size: 0.65rem;
     color: var(--subtext);
@@ -257,6 +309,11 @@ input:focus {
     background: var(--card-bg); /* Match card background */
     border-color: var(--card-border);
     color: var(--text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
 .search-input::placeholder {
     color: var(--subtext);
@@ -275,7 +332,7 @@ input:focus {
 }
 
 .copy-btn {
-    background: #1e293b;
+    background: var(--bg);
     border: 1px solid var(--card-border);
     color: var(--text);
     padding: 0 12px;
@@ -365,7 +422,7 @@ input:focus {
 code {
     display: block;
     background: #000;
-    color: var(--accent);
+    color: #34d399;
     padding: 1rem;
     border-radius: 8px;
     font-family: 'JetBrains Mono', monospace;
@@ -388,7 +445,7 @@ code:hover {
 .btn-list a {
     display: block;
     padding: 0.75rem;
-    background: #1e293b;
+    background: var(--bg);
     border: 1px solid var(--card-border);
     margin-bottom: 0.5rem;
     border-radius: 6px;
@@ -398,6 +455,12 @@ code:hover {
     transition: all 0.2s;
     min-width: 0; /* Critical for truncation in flex */
     overflow: hidden;
+}
+
+.btn-list.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 10px;
 }
 
 .btn-list a span {
@@ -410,4 +473,24 @@ code:hover {
     background: var(--accent);
     color: var(--bg);
     font-weight: bold;
+}
+
+.scratchpad-controls {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.scratchpad-btn {
+    flex: 1;
+    padding: 6px;
+    font-size: 0.75rem;
+    background: var(--card-border);
+    color: var(--text);
+    border: none;
+}
+
+.scratchpad-btn:hover {
+    background: var(--card-border);
+    filter: brightness(1.2);
 }
