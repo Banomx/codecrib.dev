@@ -6,11 +6,46 @@
     <title>Dashboard | codebrib.dev</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Welcome Overlay Styles */
+        #welcome-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 10000;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+        }
+        #welcome-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader-brand {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+    </style>
 </head>
 <body>
+    <div id="welcome-overlay">
+        <div class="loader-brand">codecrib.dev</div>
+        <p style="color: var(--subtext); font-size: 0.9rem;">Initialisiere Kontrollzentrum...</p>
+    </div>
+
     <div class="container">
         <div class="header-area">
-            <h1>IT Admin Zentrale</h1>
+            <div>
+                <h1 id="welcome-greeting">IT Admin Zentrale</h1>
+                <p style="color: var(--subtext); margin-top: 5px;">Alle Systeme im Überblick.</p>
+            </div>
             <div class="clock-container">
                 <div id="current-time">00:00:00</div>
                 <div id="current-date">Lade Datum...</div>

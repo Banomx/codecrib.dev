@@ -3,6 +3,29 @@
 // Global variable to store all snippets
 let allSnippets = [];
 let allSoftware = [];
+
+function initWelcomeScreen() {
+    const overlay = document.getElementById('welcome-overlay');
+    if (!overlay) return;
+
+    // Give the user a moment to see the brand, then fade out
+    setTimeout(() => {
+        overlay.classList.add('hidden');
+    }, 1200);
+}
+
+function setDynamicGreeting() {
+    const greetingEl = document.getElementById('welcome-greeting');
+    if (!greetingEl) return;
+
+    const hour = new Date().getHours();
+    let message = "Guten Morgen";
+    if (hour >= 12 && hour < 18) message = "Guten Tag";
+    else if (hour >= 18 || hour < 5) message = "Guten Abend";
+
+    greetingEl.textContent = `${message}, Admin`;
+}
+
 async function fetchIP() {
     const el = document.getElementById('ip-display');
     const localEl = document.getElementById('ip-local');
@@ -340,6 +363,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     if (document.getElementById('current-time')) {
+        initWelcomeScreen();
+        setDynamicGreeting();
         updateClock();
         setInterval(updateClock, 1000);
         getBrowserInfo();
@@ -524,12 +549,12 @@ async function scanSubnetForWeb() {
     for (let i = 1; i <= hostCount; i++) {
         const targetIp = longToIp(networkLong + i);
         const dot = document.createElement('div');
-        dot.style.cssText = "width: 8px; height: 8px; border-radius: 50%; background: #334155; margin: 2px auto;";
+        dot.style.cssText = "width: 8px; height: 8px; border-radius: 50%; background: var(--card-border); margin: 2px auto;";
         dot.title = targetIp;
         
         const container = document.createElement('div');
         container.style.textAlign = 'center';
-        container.innerHTML = `<div style="font-size: 0.5rem; color: #475569;">.${i}</div>`;
+        container.innerHTML = `<div style="font-size: 0.5rem; color: var(--subtext);">.${i}</div>`;
         container.prepend(dot);
         resEl.appendChild(container);
 
