@@ -7,6 +7,7 @@
     --accent: #10b981;
     --accent-hover: #34d399;
     --success: #22c55e;
+    --glass: rgba(24, 24, 27, 0.8);
     --danger: #ef4444;
     --nav-bg: rgba(9, 9, 11, 0.9);
     --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -94,7 +95,7 @@ nav {
     left: 0;
     right: 0;
     height: 64px;
-    background: var(--nav-bg);
+    background: var(--glass);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--card-border);
     display: flex;
@@ -123,6 +124,31 @@ nav a.active {
     color: var(--accent);
     background: rgba(16, 185, 129, 0.1);
 }
+
+/* Notifications */
+#notification-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 10001;
+}
+
+.notification-toast {
+    background: var(--card-bg);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+    animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
 /* Grid & Cards */
 .grid {
@@ -155,6 +181,31 @@ nav a.active {
     border-color: var(--accent);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.dashboard-link-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.dashboard-link-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.dashboard-link-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-link-desc {
+    font-size: 0.75rem;
+    color: var(--subtext);
 }
 
 .card h2 {

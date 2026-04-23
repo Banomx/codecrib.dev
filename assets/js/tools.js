@@ -35,6 +35,32 @@ function setDynamicGreeting() {
     greetingEl.textContent = `${message}, Admin`;
 }
 
+function filterDashboard() {
+    const term = document.getElementById('global-search')?.value.toLowerCase();
+    if (!term) {
+        document.querySelectorAll('.card').forEach(card => card.style.display = 'block');
+        return;
+    }
+    document.querySelectorAll('.card').forEach(card => {
+        const cardText = card.innerText.toLowerCase();
+        const searchKeywords = card.dataset.searchKeywords ? card.dataset.searchKeywords.toLowerCase() : '';
+        
+        card.style.display = (cardText.includes(term) || searchKeywords.includes(term)) ? 'block' : 'none';
+    });
+}
+
+function showNotification(message, duration = 2000) {
+    const container = document.getElementById('notification-container');
+    if (!container) return;
+    
+    const toast = document.createElement('div');
+    toast.className = 'notification-toast';
+    toast.innerText = message;
+    
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), duration);
+}
+
 async function fetchIP() {
     const el = document.getElementById('ip-display');
     const localEl = document.getElementById('ip-local');
@@ -256,26 +282,13 @@ function filterSnippets() {
 function copyToClipboard(text, event) { // Accept event as argument
     if (!text) return;
     navigator.clipboard.writeText(text).then(() => {
-        const targetElement = event ? event.target : null; // Use event.target if available
-        if (targetElement) {
-            const originalText = targetElement.innerText;
-            const originalBackground = targetElement.style.background;
-            const originalBorder = targetElement.style.borderColor;
-            
-            if (targetElement.tagName === 'BUTTON') {
-                targetElement.innerText = "COPIED!";
-            }
-            
-            targetElement.style.background = "rgba(34, 197, 94, 0.2)";
-            targetElement.style.borderColor = "var(--success)";
-            
-            setTimeout(() => { 
-                targetElement.style.background = originalBackground;
-                targetElement.style.borderColor = originalBorder;
-                if (targetElement.tagName === 'BUTTON') {
-                    targetElement.innerText = originalText;
-                }
-            }, 1000);
+        showNotification("In Zwischenablage kopiert! 📋");
+        
+        // Subtle visual feedback on the clicked element
+        const el = event?.target;
+        if (el) {
+            el.style.transform = "scale(0.95)";
+            setTimeout(() => el.style.transform = "", 100);
         }
     });
 }
@@ -371,6 +384,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
     
+    // Global Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            document.getElementById('global-search')?.focus();
+        }
+    });
+
     if (document.getElementById('current-time')) {
         initWelcomeScreen();
         setDynamicGreeting();

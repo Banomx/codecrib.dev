@@ -40,6 +40,8 @@
         <p style="color: var(--subtext); font-size: 0.9rem;">Initialisiere Kontrollzentrum...</p>
     </div>
 
+    <div id="notification-container"></div>
+
     <div class="container">
         <div class="header-area">
             <div>
@@ -52,8 +54,14 @@
             </div>
         </div>
         
-        <div class="grid">
-            <div class="card hero">
+        <div class="search-container" style="margin-bottom: 2rem;">
+            <input type="text" id="global-search" 
+                   placeholder="Suche nach Tools, IPs oder Status (Strg + K)..." 
+                   oninput="filterDashboard()" class="search-input">
+        </div>
+
+        <div class="grid" id="dashboard-grid">
+            <div class="card hero" data-search-keywords="ip, network, netzwerk, identity, whois, public, private, isp, asn">
                 <h2>🌐 Network Identity</h2>
                 <div id="ip-display" style="font-size: 1.8rem; text-align: center; margin: 15px 0; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-weight: bold;">--.---.---.--</div>
                 
@@ -78,7 +86,7 @@
                 </div>
             </div>
 
-            <div class="card hero">
+            <div class="card hero" data-search-keywords="status, health, gesundheit, github, cloudflare, openai, azure, microsoft">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
                     <h2 style="margin-bottom: 0;">🟢 Service Health</h2>
                     <button onclick="fetchServiceStatus()" class="refresh-btn" title="Refresh Status">🔄</button>
@@ -96,14 +104,14 @@
                 <p style="font-size: 0.7rem; color: var(--subtext); margin-top: 10px;">Aktualisierung alle 5 Min. — Letzter Check: <span id="last-service-check">--:--:--</span></p>
             </div>
 
-            <div class="card">
+            <div class="card" data-search-keywords="system, info, os, browser, resolution, memory, cpu, cores, user agent">
                 <h2>💻 System Info</h2>
                 <div id="system-info">
                     <p style="color: var(--subtext);">Erkenne Umgebung...</p>
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card" data-search-keywords="local, discovery, network, netzwerk, webrtc, ip, interface">
                 <h2>🔍 Local Discovery</h2>
                 <div id="local-ip-list" style="margin-bottom: 10px; min-height: 40px;">
                     <p style="color: var(--subtext); font-size: 0.8rem;">Ermittelt lokale Netzwerkschnittstellen via WebRTC.</p>
@@ -114,7 +122,7 @@
                 </button>
             </div>
 
-            <div class="card">
+            <div class="card" data-search-keywords="latency, latenz, ping, google, cloudflare">
                 <h2>📡 Netzwerk Latency</h2>
                 <div style="text-align: center; margin: 15px 0;">
                     <div id="ping-google" class="status-item"><span>Google DNS:</span> <span class="latency-value">-- ms</span></div>
@@ -123,7 +131,7 @@
                 <p style="font-size: 0.7rem; color: var(--subtext);">Grob geschätzte HTTP-Latenz (nicht ICMP).</p>
             </div>
 
-            <div class="card">
+            <div class="card" data-search-keywords="site, website, availability, erreichbarkeit, url, check">
                 <h2>🕸️ Site Availability</h2>
                 <div style="display: flex; gap: 5px; margin-bottom: 10px;">
                     <input type="text" id="site-url" placeholder="https://example.com" 
@@ -138,7 +146,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card" data-search-keywords="utils, utilities, tools, werkzeuge, base64, b64, url, encode, decode">
                 <h2>🧰 Quick Utils</h2>
                 <div class="util-box">
                     <input type="text" id="util-input" placeholder="Text für Base64 / URL..." style="font-size: 0.8rem;">
@@ -154,7 +162,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card" data-search-keywords="port, network, scanner, scan, subnet, netzwerk, ip, check">
                 <h2>🔌 Port & Network Scanner</h2>
                 <div style="display: flex; gap: 5px; margin-bottom: 10px;">
                     <input type="text" id="port-ip" placeholder="127.0.0.1" 
@@ -186,14 +194,14 @@
                 </div>
             </div>
 
-            <div class="card hero">
+            <div class="card hero" data-search-keywords="links, portals, portale, dashboard">
                 <h2>🛠️ Schnelle Portale</h2>
                 <div id="dashboard-links" class="btn-list grid-layout">
                     <p style="color: var(--subtext);">Lade Links...</p>
                 </div>
             </div>
 
-            <div class="card hero">
+            <div class="card hero" data-search-keywords="scratchpad, notes, notizen, notepad, text">
                 <h2>📝 Scratchpad</h2>
                 <textarea id="scratchpad" placeholder="Notizen für den aktuellen Task (Auto-Save)..." style="min-height: 120px;"></textarea>
                 <div class="scratchpad-controls">
@@ -203,7 +211,7 @@
                 <p style="font-size: 0.7rem; color: var(--subtext); margin-top: 5px;">Daten werden nur lokal im Browser gespeichert.</p>
             </div>
 
-            <div class="card">
+            <div class="card" data-search-keywords="password, passwort, generator, pw">
                 <h2>🔑 PW-Generator</h2>
                 <div style="display: flex; gap: 5px; margin-bottom: 10px;">
                     <input type="text" id="pw-result" readonly 
@@ -217,7 +225,7 @@
                 </button>
             </div>
 
-            <div class="card">
+            <div class="card" data-search-keywords="subnet, subnetz, check, calculator, rechner, ip, cidr, mask, broadcast, hosts">
                 <h2>🧮 Subnetz-Check</h2>
                 <div style="display: flex; gap: 5px; margin-bottom: 10px;">
                     <input type="text" id="sub-ip" placeholder="192.168.1.0" 
