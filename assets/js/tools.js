@@ -4,14 +4,23 @@
 let allSnippets = [];
 let allSoftware = [];
 
+const DASHBOARD_CONFIG = {
+    welcomeDelay: 1200,
+    portTimeout: 1500,
+    subnetTimeout: 400,
+    refreshIntervals: {
+        services: 300000, // 5 min
+        latency: 10000    // 10 sec
+    }
+};
+
 function initWelcomeScreen() {
     const overlay = document.getElementById('welcome-overlay');
     if (!overlay) return;
 
-    // Give the user a moment to see the brand, then fade out
     setTimeout(() => {
         overlay.classList.add('hidden');
-    }, 1200);
+    }, DASHBOARD_CONFIG.welcomeDelay);
 }
 
 function setDynamicGreeting() {
@@ -549,12 +558,12 @@ async function scanSubnetForWeb() {
     for (let i = 1; i <= hostCount; i++) {
         const targetIp = longToIp(networkLong + i);
         const dot = document.createElement('div');
-        dot.style.cssText = "width: 8px; height: 8px; border-radius: 50%; background: var(--card-border); margin: 2px auto;";
+        dot.className = 'scan-dot';
         dot.title = targetIp;
         
         const container = document.createElement('div');
         container.style.textAlign = 'center';
-        container.innerHTML = `<div style="font-size: 0.5rem; color: var(--subtext);">.${i}</div>`;
+        container.innerHTML = `<div class="incident-title">.${i}</div>`;
         container.prepend(dot);
         resEl.appendChild(container);
 
@@ -573,7 +582,7 @@ async function scanSubnetForWeb() {
 
 async function checkTarget(ip, port) {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 400); 
+    const timeout = setTimeout(() => controller.abort(), DASHBOARD_CONFIG.subnetTimeout); 
     try {
         // mode: no-cors is essential to bypass some browser security blocks during a 'ping' scan
         await fetch(`http://${ip}:${port}`, { mode: 'no-cors', signal: controller.signal });

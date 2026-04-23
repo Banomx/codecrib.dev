@@ -181,7 +181,7 @@ button:active {
 
 input, textarea {
     width: 100%;
-    background: #000;
+    background: var(--bg);
     border: 1px solid var(--card-border);
     color: white;
     padding: 0.75rem;
@@ -408,6 +408,15 @@ input:focus {
     border-radius: 4px;
 }
 
+.scan-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--card-border);
+    margin: 2px auto;
+    transition: all 0.3s ease;
+}
+
 .category-header {
     grid-column: 1 / -1;
     font-size: 1.4rem;
@@ -421,7 +430,7 @@ input:focus {
 /* Snippets Specific */
 code {
     display: block;
-    background: #000;
+    background: var(--bg);
     color: #34d399;
     padding: 1rem;
     border-radius: 8px;
