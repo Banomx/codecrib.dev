@@ -63,11 +63,10 @@ function showNotification(message, duration = 2000) {
 
 async function fetchIP() {
     const el = document.getElementById('ip-display');
-    const localEl = document.getElementById('ip-local');
     const ispEl = document.getElementById('ip-isp');
-    const asnEl = document.getElementById('ip-asn');
     const locationEl = document.getElementById('ip-location');
     const securityEl = document.getElementById('ip-security');
+    const privateEl = document.getElementById('ip-private');
 
     el.innerText = "Checking...";
 
@@ -86,16 +85,19 @@ async function fetchIP() {
     });
 
     try {
-        // Fetch richer IP info from ipwho.is (more reliable CORS/Limits)
+        // Fetch richer IP info and local IP in parallel
         const [pubRes, localIps] = await Promise.all([
             fetch('https://ipwho.is/').then(r => r.json()).catch(() => null),
             getLocalIP
         ]);
 
+        if (privateEl) {
+            privateEl.innerText = localIps.length > 0 ? localIps.join(', ') : 'N/A';
+        }
+
         if (pubRes && pubRes.success) {
             el.innerText = pubRes.ip || "Error";
             if (ispEl) ispEl.innerText = pubRes.connection?.isp || pubRes.connection?.org || "Unknown";
-            if (asnEl) asnEl.innerText = pubRes.connection?.asn || "N/A";
             
             if (locationEl) {
                 const city = pubRes.city || "";
@@ -115,18 +117,14 @@ async function fetchIP() {
             el.innerText = backup ? backup.ip : "Error";
             
             // Reset labels to avoid "Lade..." hang
-            const fields = [ispEl, asnEl, locationEl, securityEl];
-            fields.forEach(f => { if(f) f.innerText = "N/A (API Limit/Error)"; });
+            const fields = [ispEl, locationEl, securityEl, privateEl];
+            fields.forEach(f => { if(f) f.innerText = "N/A (Error)"; });
             if (securityEl) securityEl.style.color = "var(--subtext)";
-        }
-
-        if (localEl && localIps) {
-            localEl.innerText = localIps.length > 0 ? localIps.join(', ') : 'N/A';
         }
     } catch (e) { 
         el.innerText = "Offline/Error"; 
         // Ensure "Lade..." is cleared even on catch
-        const fields = [ispEl, asnEl, localEl, locationEl, securityEl];
+        const fields = [ispEl, locationEl, securityEl, privateEl];
         fields.forEach(f => { if(f && f.innerText === "Lade...") f.innerText = "Error"; });
     }
 }
