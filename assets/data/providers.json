@@ -1,0 +1,71 @@
+{
+  "generic_url": "https://www.heise.de/netze/netzstatus/",
+  "providers": [
+    {
+      "id": "deutsche-telekom",
+      "name": "Deutsche Telekom",
+      "url": "https://allestoerungen.de/stoerung/deutsche-telekom/",
+      "keywords": ["telekom"]
+    },
+    {
+      "id": "vodafone",
+      "name": "Vodafone",
+      "url": "https://www.vodafone.de/hilfe/stoerung.html",
+      "keywords": ["vodafone"]
+    },
+    {
+      "id": "o2",
+      "name": "O2 / Telefonica",
+      "url": "https://www.o2online.de/netz/netzstoerung/",
+      "keywords": ["telefonica", "o2"]
+    },
+    {
+      "id": "1-und-1",
+      "name": "1&1",
+      "url": "https://allestoerungen.de/stoerung/1-und-1/",
+      "keywords": ["1&1", "1 und 1"]
+    },
+    {
+      "id": "pyur",
+      "name": "PŸUR",
+      "url": "https://www.pyur.com/privatkunden/hilfe/stoerungsmeldung.html",
+      "keywords": ["pyur"]
+    },
+    {
+      "id": "netcologne",
+      "name": "NetCologne",
+      "url": "https://www.netcologne.de/privatkunden/hilfe/stoerungen/",
+      "keywords": ["netcologne"]
+    },
+    {
+      "id": "congstar",
+      "name": "Congstar",
+      "url": "https://allestoerungen.de/stoerung/congstar/",
+      "keywords": ["congstar"]
+    },
+    {
+      "id": "ewe",
+      "name": "EWE",
+      "url": "https://www.ewe.de/privatkunden/hilfe-und-service/stoerungshilfe",
+      "keywords": ["ewe"]
+    },
+    {
+      "id": "m-net",
+      "name": "M-net",
+      "url": "https://www.m-net.de/hilfe-service/stoerungsmeldungen/",
+      "keywords": ["m-net", "mnet"]
+    },
+    {
+      "id": "wilhelm-tel",
+      "name": "wilhelm.tel",
+      "url": "https://www.wilhelm-tel.de/hilfe-service/stoerungen/",
+      "keywords": ["wilhelm.tel", "wilhelmtel"]
+    },
+    {
+      "id": "deutsche-glasfaser",
+      "name": "Deutsche Glasfaser",
+      "url": "https://www.deutsche-glasfaser.de/service/stoerungs-check/",
+      "keywords": ["deutsche glasfaser", "glasfaser"]
+    }
+  ]
+}

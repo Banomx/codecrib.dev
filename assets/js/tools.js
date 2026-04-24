@@ -3,6 +3,8 @@
 // Global variable to store all snippets
 let allSnippets = [];
 let allSoftware = [];
+let allProviders = [];
+let genericOutageUrl = "https://www.heise.de/netze/netzstatus/";
 
 const DASHBOARD_CONFIG = {
     welcomeDelay: 1200,
@@ -111,6 +113,16 @@ async function fetchIP() {
                 securityEl.innerText = isVpn ? "⚠️ Proxy/VPN detected" : "✅ Direct Connection";
                 securityEl.style.color = isVpn ? "var(--warning)" : "var(--success)";
             }
+
+            // Auto-select ISP in the outage checker
+            const ispName = (pubRes.connection?.isp || "").toLowerCase();
+            const ispSelect = document.getElementById('isp-select');
+            if (ispSelect) {
+                const match = allProviders.find(p => 
+                    p.keywords.some(k => ispName.includes(k.toLowerCase()))
+                );
+                if (match) ispSelect.value = match.id;
+            }
         } else {
             // Fallback to ipify if the rich API fails
             const backup = await fetch('https://api.ipify.org?format=json').then(r => r.json()).catch(() => null);
@@ -144,6 +156,37 @@ function openWhois() {
         window.open(provider + ip, '_blank');
     } else {
         alert("Bitte warten Sie, bis die IP-Adresse geladen wurde oder prüfen Sie Ihre Verbindung.");
+    }
+}
+
+function checkISPOutage() {
+    const isp = document.getElementById('isp-select').value;
+
+    const provider = allProviders.find(p => p.id === isp);
+    let url = provider ? provider.url : genericOutageUrl;
+
+    window.open(url, '_blank');
+}
+
+async function loadProviders() {
+    try {
+        const response = await fetch('assets/data/providers.json');
+        const data = await response.json();
+        allProviders = data.providers;
+        genericOutageUrl = data.generic_url;
+
+        const select = document.getElementById('isp-select');
+        if (select) {
+            let optionsHtml = '<option value="generic">-- Provider wählen --</option>';
+            optionsHtml += allProviders.map(p => 
+                `<option value="${p.id}">${p.name}</option>`
+            ).join('');
+            select.innerHTML = optionsHtml;
+        }
+    } catch (e) {
+        console.error("Fehler beim Laden der Provider-Daten:", e);
+        const select = document.getElementById('isp-select');
+        if (select) select.innerHTML = '<option value="generic">Fehler beim Laden</option>';
     }
 }
 
@@ -433,8 +476,8 @@ document.addEventListener("DOMContentLoaded", () => {
         setDynamicGreeting();
         updateClock();
         setInterval(updateClock, 1000);
+        loadProviders().then(() => fetchIP()); // Load providers first, then detect IP
         getBrowserInfo();
-        fetchIP();
         fetchServiceStatus();
         setInterval(fetchServiceStatus, 300000); // 5 minute refresh
         setInterval(updateLatency, 10000); // 10 second latency check

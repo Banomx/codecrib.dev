@@ -199,6 +199,24 @@
                 </div>
             </div>
 
+            <div class="card" data-search-keywords="isp, outage, störung, internet, provider, telekom, vodafone, o2, network">
+                <h2>📡 ISP Outage Check</h2>
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px;">
+                    <div style="display: flex; gap: 5px;">
+                        <select id="isp-select" style="width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--card-border); border-radius: 4px; font-size: 0.8rem; padding: 8px;">
+                            <option value="generic">Lade Provider...</option>
+                        </select>
+                    </div>
+                    <button onclick="checkISPOutage()" 
+                            style="width: 100%; padding: 10px; background: var(--accent); border: none; border-radius: 4px; color: var(--bg); font-weight: bold; cursor: pointer;">
+                        Status prüfen ↗
+                    </button>
+                </div>
+                <p style="font-size: 0.7rem; color: var(--subtext);">
+                    Prüft crowd-sourced Daten und offizielle Störungskarten basierend auf Provider und Region.
+                </p>
+            </div>
+
             <div class="card" data-search-keywords="port, network, scanner, scan, subnet, netzwerk, ip, check">
                 <h2>🔌 Port & Network Scanner</h2>
                 <div style="display: flex; gap: 5px; margin-bottom: 10px;">
